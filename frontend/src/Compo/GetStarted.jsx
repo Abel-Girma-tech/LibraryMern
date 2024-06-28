@@ -14,11 +14,6 @@ import { useNavigate } from 'react-router-dom';
 export default function GetStarted() {
     const Navigate = useNavigate();
 
-
-
-
-   
-
     function GoToLogINPage (){
          Navigate('/user/login')
     }

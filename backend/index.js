@@ -84,6 +84,8 @@ catch(err){
 
 })
 
+app.get('/' , async (req ,res)=>res.status(200).json({message : "Back end is working"}))
+
 app.post('/user/login' , async (req ,res)=>{
 
     let {username , password} = req.body;

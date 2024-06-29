@@ -12,7 +12,7 @@ export default function Collection() {
     axios.defaults.withCredentials = true;
 
     useEffect(() => {
-        axios.get('http://localhost:8000/bella-books/collection')
+        axios.get('https://library-mern-ten.vercel.app/bella-books/collection')
             .then((res) => { setBooks(res.data) })
             .catch((err) => {
                 console.error(err)

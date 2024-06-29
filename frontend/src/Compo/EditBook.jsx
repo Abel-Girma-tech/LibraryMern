@@ -13,7 +13,7 @@ let {id}= useParams();
 axios.defaults.withCredentials = true;
 
 useEffect(()=>{
-    axios.get(`http://localhost:8000/bella-books/single-book-detail/${id}`)
+    axios.get(`https://library-mern-ten.vercel.app/bella-books/single-book-detail/${id}`)
     .then((res)=>{
             setBookData(res.data);
             
@@ -37,7 +37,7 @@ function collectNewBookData (e){
 function donateBook(e){
     axios.defaults.withCredentials=true;
     e.preventDefault();
-    axios.put(`http://localhost:8000/bella-books/edit-book/${id}` , bookData)
+    axios.put(`https://library-mern-ten.vercel.app/bella-books/edit-book/${id}` , bookData)
     .then((res)=>{
         setMessage({ message: res.data.message, success: true });
 

@@ -35,7 +35,7 @@ export default function Register() {
 
    async function submitRegisterationData(e){
     axios.defaults.withCredentials=true;
-    await axios.post('http://localhost:8000/user/register' , NewuserData)
+    await axios.post('https://library-mern-ten.vercel.app/user/register' , NewuserData)
     .then((res)=>{
         setNewUserData({username: "" , email: "" , password: ""});
         Navigate('/user/login')

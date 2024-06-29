@@ -14,7 +14,7 @@ export default function DeleteBook() {
   axios.defaults.withCredentials = true;
 
   useEffect(() => {
-    axios.get(`http://localhost:8000/bella-books/single-book-detail/${id}`)
+    axios.get(`https://library-mern-ten.vercel.app/bella-books/single-book-detail/${id}`)
       .then((res) => {
         setBook(res.data);
         setLoading(false);
@@ -26,7 +26,7 @@ export default function DeleteBook() {
   }, [id]);
 
   function onClickYesDelete(e) {
-    axios.delete(`http://localhost:8000/bella-books/delete-book/${id}`)
+    axios.delete(`https://library-mern-ten.vercel.app/bella-books/delete-book/${id}`)
       .then((res) => {
         setMessage(res.data.message);
         setDeleted(true);

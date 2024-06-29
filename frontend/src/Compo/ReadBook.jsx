@@ -14,7 +14,7 @@ export default function ReadBook() {
   axios.defaults.withCredentials = true;
 
   useEffect(() => {
-    axios.get(`http://localhost:8000/bella-books/single-book-detail/${id}`)
+    axios.get(`hhttps://library-mern-ten.vercel.app/single-book-detail/${id}`)
       .then((res) => {
         setBook(res.data);
       })

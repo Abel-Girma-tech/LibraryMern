@@ -84,7 +84,7 @@ catch(err){
 
 })
 
-app.get('/' , async (req ,res)=>res.status(200).json({message : "Back end is working"}))
+app.get('/' ,(req ,res)=>res.status(200).json({message : "Back end is working"}))
 
 app.post('/user/login' , async (req ,res)=>{
 

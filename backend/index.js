@@ -174,7 +174,7 @@ app.post('/bella-books/add-new-book', verifyUser, async (req, res) => {
     }
 });
 
-app.get('/bella-books/collection', verifyUser, async (req, res) => {
+app.get('/bella-books/collection', async (req, res) => {
     try {
         const allBooks = await booksModel.find();
 

@@ -17,7 +17,7 @@ const booksModel = require('./models/bookCollectionModel.js');
 
 
 app.use(cors({
-    origin: 'https://library-mern-iby7.vercel.app/', // Allow only your frontend domain
+    origin: 'https://library-mern-iby7.vercel.app', // Allow only your frontend domain
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Define allowed HTTP methods
     credentials: true, // Allow cookies to be sent
     allowedHeaders: ['Content-Type', 'Authorization'], // Specify allowed headers

@@ -149,7 +149,7 @@ app.get('/bella-books/home', async (req, res) => {
     return res.status(200).json({ valid: true, message: "Authorized user!" });
 });
 
-app.post('/bella-books/add-new-book', verifyUser, async (req, res) => {
+app.post('/bella-books/add-new-book',  async (req, res) => {
     const { title, author, year, genre, cover, desc } = req.body;
 
     try {
@@ -190,7 +190,7 @@ app.get('/bella-books/collection', async (req, res) => {
     }
 });
 
-app.get('/bella-books/single-book-detail/:id', verifyUser, async (req, res) => {
+app.get('/bella-books/single-book-detail/:id', async (req, res) => {
     try {
         const { id } = req.params;
 
@@ -211,7 +211,7 @@ app.get('/bella-books/single-book-detail/:id', verifyUser, async (req, res) => {
     }
 });
 
-app.delete('/bella-books/delete-book/:id', verifyUser, async (req, res) => {
+app.delete('/bella-books/delete-book/:id', async (req, res) => {
     const { id } = req.params;
 
     try {
@@ -232,7 +232,7 @@ app.delete('/bella-books/delete-book/:id', verifyUser, async (req, res) => {
     }
 });
 
-app.put('/bella-books/edit-book/:id', verifyUser, async (req, res) => {
+app.put('/bella-books/edit-book/:id', async (req, res) => {
     const { id } = req.params;
     const { title, author, year, genre, cover, desc } = req.body;
 

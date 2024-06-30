@@ -29,7 +29,7 @@ export default function Login() {
         try {
             const res = await axios.post('https://library-mern-ten.vercel.app/user/login', userData);
             setUserData({ username: "", password: "" });
-            navigate('/');
+            navigate('/bella-books/home');
             setMessage(res.data.message);
         } catch (err) {
             console.error(err);

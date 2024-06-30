@@ -26,7 +26,7 @@ function App() {
         <Routes>
         <Route path="/" element={<Layout />}>
           <Route element={<PrivateRoute/>}>
-                <Route path='/bella-books/home' element={<Home/>}/>
+                <Route path='/' element={<Home/>}/>
                 <Route path='/bella-books/collection' element={<Collection/>}/>
                 <Route path='/bella-books/add-new-book' element={<AddBook/>}/>
                 <Route path='/bella-books/single-book-detail/:id' element={<ReadBook/>}/>

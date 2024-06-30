@@ -17,7 +17,7 @@ export default function Collection() {
             .catch((err) => {
                 console.error(err)
             });
-    }, []);
+    }, [1]);
 
     function navigateToAction(e, id) {
         if (e.target.id === "edit_btn") {

@@ -9,7 +9,7 @@ const Layout = () => {
 
     const location = useLocation();
 
-    const hideHeaderAndFooter = location.pathname==='/user/register' || location.pathname==='/get-started' || location.pathname==='/user/login'
+    const hideHeaderAndFooter = location.pathname==='/user/register' || location.pathname==='/' || location.pathname==='/user/login'
 
 
     return (

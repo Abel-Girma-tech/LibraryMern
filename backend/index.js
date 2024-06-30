@@ -14,10 +14,10 @@ const refreshTokSecKey = process.env.refreshTokSecKey;
 const app = express();
 const userModel = require('./models/newUserModel.js');
 const booksModel = require('./models/bookCollectionModel.js');
-const frontendDomain = 'https://library-mern-iby7.vercel.app';
+
 
 app.use(cors({
-    origin: frontendDomain, // Allow only your frontend domain
+    origin: 'https://library-mern-iby7.vercel.app/', // Allow only your frontend domain
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Define allowed HTTP methods
     credentials: true, // Allow cookies to be sent
     allowedHeaders: ['Content-Type', 'Authorization'], // Specify allowed headers

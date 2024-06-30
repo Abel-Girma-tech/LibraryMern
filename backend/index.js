@@ -1,142 +1,112 @@
-require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
+require('dotenv').config();
+
 const mongoURL = process.env.MONGO_URI;
 const PORT = process.env.PORT;
 const accessTokSecKey = process.env.accessTokSecKey;
 const refreshTokSecKey = process.env.refreshTokSecKey;
+
 const app = express();
-const userModel = require('./models/newUserModel.js')
-const booksModel = require('./models/bookCollectionModel.js')
+const userModel = require('./models/newUserModel.js');
+const booksModel = require('./models/bookCollectionModel.js');
 const frontendDomain = 'https://library-mern-iby7.vercel.app';
 
-console.log(booksModel)
 app.use(cors({
     origin: frontendDomain, // Allow only your frontend domain
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Define allowed HTTP methods
     credentials: true, // Allow cookies to be sent
-  }));
+    allowedHeaders: ['Content-Type', 'Authorization'], // Specify allowed headers
+}));
+
 app.use(express.json());
 app.use(cookieParser());
 
-
-
 mongoose.connect(mongoURL)
-.then(()=>{
-
-    console.log("Succefully connected to the mongo database.");
-    app.listen(PORT , ()=>{
-        console.log(`Listening to port ${PORT}`);
-        console.log(userModel)
+    .then(() => {
+        console.log("Successfully connected to the MongoDB database.");
+        app.listen(PORT, () => {
+            console.log(`Listening on port ${PORT}`);
+        });
     })
-
-})
-
-.catch((err)=>{
-    console.error(err)
-    console.log("Server error")
-})
-
-app.post('/user/register' , async (req , res)=>{
-
-    let {username , email , password} = req.body;
-try{
-
-    if(!username || !email || !password){
-        return res.status(400).json({message : "Please fill all requird fields."})
-    }
-
-    if(password.length<8){
-        return res.status(400).json({message : "Password must be at least 8 characters"})
-    }
-
-    let doesUserExist = await userModel.findOne({username});
-        if(doesUserExist){
-
-            return res.status(400).json({message : "User already exist"})
-
-        }
-
-        else {
-
-            let hashedPswrd = await bcrypt.hash(password , 10);
-
-            let newUser = await userModel.create({
-                username, email , password : hashedPswrd
-            })
-        
-            return res.status(200).json({message : "Account succesfully created"})
-
-        }
-
-
-
-}
-
-catch(err){
-
-    console.error(err);
-    return res.status(500).json(`Internal server error : ${err}`)
-
-}
-
-})
-
-app.get('/' ,(req ,res)=>res.status(200).json({message : "Back end is working"}))
-
-app.post('/user/login' , async (req ,res)=>{
-
-    let {username , password} = req.body;
-
-    try{
-
-        if(!username || !password){
-            return res.status(400).json({message : "Please fill all required fields"})
-        }
-
-        let checksUserExist = await userModel.findOne({username})
-        if(!checksUserExist){
-            return res.status(400).json({message : "User does not exist. Please try again."})
-        }
-
-        else {
-          
-            let hashedLoginPass = await bcrypt.compare(password , checksUserExist.password);
-              
-            if(!hashedLoginPass){
-
-                return res.status(400).json({message : "username or passowrd does not match. Please try again."})
-            }
-
-            else{
-
-                let accessToken = jwt.sign({username :username} , accessTokSecKey , {expiresIn: '1m'})
-                let refreshToken = jwt.sign({username :username} , refreshTokSecKey , {expiresIn: '2m'})
-
-                res.cookie('access_token' , accessToken , { maxAge: 60000})
-                res.cookie('refresh_token' , refreshToken , {maxAge: 120000})
-
-                return res.status(200).json({message : "Succefully logged in!"})
-            }
-        }
-
-    }
-
-    catch(err){
-
+    .catch((err) => {
         console.error(err);
-        return res.status(500).json(`Internal server error : ${err}`)
+        console.log("Server error");
+    });
 
+app.post('/user/register', async (req, res) => {
+    const { username, email, password } = req.body;
+
+    try {
+        if (!username || !email || !password) {
+            return res.status(400).json({ message: "Please fill all required fields." });
+        }
+
+        if (password.length < 8) {
+            return res.status(400).json({ message: "Password must be at least 8 characters." });
+        }
+
+        const doesUserExist = await userModel.findOne({ username });
+        if (doesUserExist) {
+            return res.status(400).json({ message: "User already exists" });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const newUser = await userModel.create({
+            username, email, password: hashedPassword
+        });
+
+        return res.status(200).json({ message: "Account successfully created" });
+
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json(`Internal server error: ${err}`);
     }
-})
+});
 
+app.get('/', (req, res) => res.status(200).json({ message: "Backend is working" }));
+
+app.post('/user/login', async (req, res) => {
+    const { username, password } = req.body;
+
+    try {
+        if (!username || !password) {
+            return res.status(400).json({ message: "Please fill all required fields" });
+        }
+
+        const user = await userModel.findOne({ username });
+        if (!user) {
+            return res.status(400).json({ message: "User does not exist. Please try again." });
+        }
+
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
+            return res.status(400).json({ message: "Username or password does not match. Please try again." });
+        }
+
+        const accessToken = jwt.sign({ username }, accessTokSecKey, { expiresIn: '1m' });
+        const refreshToken = jwt.sign({ username }, refreshTokSecKey, { expiresIn: '2m' });
+
+        res.cookie('access_token', accessToken, { maxAge: 60000, httpOnly: true });
+        res.cookie('refresh_token', refreshToken, { maxAge: 120000, httpOnly: true });
+
+        return res.status(200).json({ message: "Successfully logged in!" });
+
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json(`Internal server error: ${err}`);
+    }
+});
+
+// Define other routes and middleware here...
 
 const verifyUser = (req, res, next) => {
-    let accessToken = req.cookies.access_token;
+    const accessToken = req.cookies.access_token;
 
     if (!accessToken) {
         return renewToken(req, res, next);
@@ -157,7 +127,7 @@ const verifyUser = (req, res, next) => {
 };
 
 const renewToken = (req, res, next) => {
-    let refreshToken = req.cookies.refresh_token;
+    const refreshToken = req.cookies.refresh_token;
 
     if (!refreshToken) {
         return res.status(400).json({ valid: false, message: "Refresh token not found or expired." });
@@ -167,7 +137,7 @@ const renewToken = (req, res, next) => {
         if (err) {
             return res.status(400).json({ valid: false, message: "Invalid refresh token" });
         } else {
-            let newAccessToken = jwt.sign({ username: decoded.username }, accessTokSecKey, { expiresIn: '1m' });
+            const newAccessToken = jwt.sign({ username: decoded.username }, accessTokSecKey, { expiresIn: '1m' });
             res.cookie('access_token', newAccessToken, { maxAge: 60000, httpOnly: true });
             req.body.username = decoded.username;
             next();
@@ -175,68 +145,54 @@ const renewToken = (req, res, next) => {
     });
 };
 
+app.get('/bella-books/home', async (req, res) => {
+    return res.status(200).json({ valid: true, message: "Authorized user!" });
+});
 
-app.get('/bella-books/home', async (req , res)=>{
+app.post('/bella-books/add-new-book', verifyUser, async (req, res) => {
+    const { title, author, year, genre, cover, desc } = req.body;
 
-    return res.status(200).json({valid: true , message : "Authorized user!"})
-})
-
-app.post('/bella-books/add-new-book' , async (req ,res)=>{
-
-    const {title , author , year , genre, cover , desc} = req.body;
-
-    try{
-
-        if(!title || !author || !year || !genre || !cover || !desc){
-            return res.status(400).json({message : "Please fill all required data to add a new book"})
+    try {
+        if (!title || !author || !year || !genre || !cover || !desc) {
+            return res.status(400).json({ message: "Please fill all required data to add a new book" });
         }
 
-        let checkExistingBook = await booksModel.findOne({title});
-
-        if(checkExistingBook){
-            return res.status(409).json({message : "Book already exists in our library. Thank you for your kindness!"})
+        const existingBook = await booksModel.findOne({ title });
+        if (existingBook) {
+            return res.status(409).json({ message: "Book already exists in our library. Thank you for your kindness!" });
         }
 
-        else{
-            const newBook = await booksModel.create({
-                title , author , year , genre , cover , desc
-            })
+        const newBook = await booksModel.create({
+            title, author, year, genre, cover, desc
+        });
 
-            return res.status(200).json({message : "Book donated succfully. Thank you for you donation!" , newBook})
-        }
+        return res.status(200).json({ message: "Book donated successfully. Thank you for your donation!", newBook });
 
-    }
-
-    catch(err){
+    } catch (err) {
         console.error(err);
-        return res.status(500).json(`Internal server error with adding books. : ${err}`)
+        return res.status(500).json(`Internal server error with adding books: ${err}`);
     }
-})
+});
 
-app.get('/bella-books/collection' ,verifyUser, async (req ,res)=>{
-    try{
+app.get('/bella-books/collection', verifyUser, async (req, res) => {
+    try {
+        const allBooks = await booksModel.find();
 
-        const allBooks = await booksModel.find()
-
-        if(allBooks.length==0){
-            return res.status(404).json({message : "Currently we don't have books in our library. Please in a few days."})
-        }
-        else {
+        if (allBooks.length === 0) {
+            return res.status(404).json({ message: "Currently we don't have books in our library. Please check back in a few days." });
+        } else {
             return res.status(200).json(allBooks);
         }
 
-    }
-
-    catch(err){
+    } catch (err) {
         console.error(err);
-        return res.status(500).json(`Internal server error fetching book collection. Please try again. : ${err}`)
+        return res.status(500).json(`Internal server error fetching book collection. Please try again: ${err}`);
     }
-})
+});
 
-app.get('/bella-books/single-book-detail/:id', verifyUser , async (req, res) => {
+app.get('/bella-books/single-book-detail/:id', verifyUser, async (req, res) => {
     try {
-        let { id } = req.params;
-
+        const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(400).json({ message: "Invalid book ID format." });
@@ -255,9 +211,8 @@ app.get('/bella-books/single-book-detail/:id', verifyUser , async (req, res) => 
     }
 });
 
-
-app.delete('/bella-books/delete-book/:id', verifyUser ,async (req, res) => {
-    let { id } = req.params;
+app.delete('/bella-books/delete-book/:id', verifyUser, async (req, res) => {
+    const { id } = req.params;
 
     try {
         if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -277,39 +232,28 @@ app.delete('/bella-books/delete-book/:id', verifyUser ,async (req, res) => {
     }
 });
 
+app.put('/bella-books/edit-book/:id', verifyUser, async (req, res) => {
+    const { id } = req.params;
+    const { title, author, year, genre, cover, desc } = req.body;
 
-app.put('/bella-books/edit-book/:id' , verifyUser , async (req , res)=>{
+    try {
+        if (!title || !author || !year || !genre || !cover || !desc) {
+            return res.status(400).json({ message: "Please fill all required data to edit the book" });
+        }
 
-    let { id } = req.params;
-    const {title , author , year ,genre, cover , desc} = req.body;
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ message: "Invalid book ID format." });
+        }
 
-    try{
+        const editedBook = await booksModel.findByIdAndUpdate(id, req.body);
 
-        if(!title || !author || !year || !genre || !cover || !desc){
-            return res.status(400).json({message : "Please fill all required data to add edited book"})
-        }   
-        else{  
-            
-            if (!mongoose.Types.ObjectId.isValid(id)) {
-                return res.status(400).json({ message: "Invalid book ID format." });
-            }
-                const editedBook = await booksModel.findByIdAndUpdate(id , req.body);
-
-                if(!editedBook){
-                    return res.status(404).json({ message: "Book not found" });
-                }
-
-                else{
-                    return res.status(200).json({ message: "Book succsfully updated."});
-                }
-            }
-
+        if (!editedBook) {
+            return res.status(404).json({ message: "Book not found" });
+        } else {
+            return res.status(200).json({ message: "Book successfully updated." });
+        }
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: `Internal server error editing the book. Please try again.`, error: err.message });
     }
-catch(err){
-
-    console.error(err);
-        return res.status(500).json({ message: `Internal server error adding edited book. Please try again.`, error: err.message });
-}
-})
-
-
+});

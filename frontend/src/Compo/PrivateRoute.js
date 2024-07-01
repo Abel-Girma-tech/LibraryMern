@@ -4,15 +4,14 @@ import Cookies from 'js-cookie';
 const PrivateRoute =()=>{
 
 
-    // let access = Cookies.get('access_token');
-    // let refresh = Cookies.get('refresh_token');
+    let access = Cookies.get('access_token');
+    let refresh = Cookies.get('refresh_token');
 
-    let auth = true;
 
 
     return (
 
-        auth?
+        refresh?
 <Outlet/> : <Navigate to='user/login' replace />   )
 }
 

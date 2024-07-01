@@ -7,6 +7,9 @@ const PrivateRoute =()=>{
     let access = Cookies.get('access_token');
     let refresh = Cookies.get('refresh_token');
 
+    console.log('Access Token:', access); // Debugging statement
+    console.log('Refresh Token:', refresh); // Debugging statement
+
 
 
     return (

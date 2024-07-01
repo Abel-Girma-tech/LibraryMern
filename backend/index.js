@@ -92,8 +92,8 @@ app.post('/user/login', async (req, res) => {
         const accessToken = jwt.sign({ username }, accessTokSecKey, { expiresIn: '1m' });
         const refreshToken = jwt.sign({ username }, refreshTokSecKey, { expiresIn: '2m' });
 
-        res.cookie('access_token', accessToken, { maxAge: 60000, httpOnly: true , secure: true });
-        res.cookie('refresh_token', refreshToken, { maxAge: 120000, httpOnly: true , secure: true });
+        res.cookie('access_token', accessToken, { maxAge: 60000});
+        res.cookie('refresh_token', refreshToken, { maxAge: 120000});
 
         return res.status(200).json({ message: "Successfully logged in!" });
 
@@ -138,7 +138,7 @@ const renewToken = (req, res, next) => {
             return res.status(400).json({ valid: false, message: "Invalid refresh token" });
         } else {
             const newAccessToken = jwt.sign({ username: decoded.username }, accessTokSecKey, { expiresIn: '1m' });
-            res.cookie('access_token', newAccessToken, { maxAge: 60000, httpOnly: true , secure: true });
+            res.cookie('access_token', newAccessToken, { maxAge: 60000});
             req.body.username = decoded.username;
             next();
         }

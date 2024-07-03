@@ -17,7 +17,6 @@ const Home = () => {
   useEffect(() => {
     axios.get('https://library-mern-ten.vercel.app/bella-books/collection')
         .then((res) => { setBookNumber(res.data.length);
-                        setLatestBooks(res.data)
          })
         .catch((err) => {
             console.error(err)
@@ -27,7 +26,7 @@ const Home = () => {
 useEffect(() => {
   axios.get('https://library-mern-ten.vercel.app/bellabooks/latest-users')
       .then((res) => { 
-                      setLatestBooks(res.data)
+                            setLatestBooks(res.data)
        })
       .catch((err) => {
           console.error(err)

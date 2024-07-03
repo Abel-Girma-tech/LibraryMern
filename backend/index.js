@@ -270,12 +270,12 @@ app.get('/bellabooks/users', async (req, res) => {
 });
 
 
-app.get('/bellabooks/latest-users', async (req, res) => {
+app.get('/bellabooks/latest-books', async (req, res) => {
     try {
-        const latestUsers = await userModel.find().sort({ createdAt: -1 }).limit(3);
-        res.status(200).json(latestUsers);
+        const latestBooks = await booksModel.find().sort({ createdAt: -1 }).limit(3);
+        res.status(200).json(latestBooks);
     } catch (err) {
-        console.error("Error fetching latest users:", err);
-        res.status(500).json({ error: "Internal server error getting latest users" });
+        console.error("Error fetching latest books:", err);
+        res.status(500).json({ error: "Internal server error getting latest books" });
     }
 });

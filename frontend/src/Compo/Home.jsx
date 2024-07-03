@@ -10,7 +10,7 @@ const Home = () => {
   const Navigate = useNavigate();
   const [numberOfBooks , setBookNumber]=useState(0);
   const [numberOfUsers , setNumberOfUsers] = useState(0);
-  const [latestBooks , setLatestBooks] = useState(null);
+  const [latestBooks , setLatestBooks] = useState([]);
 
 
   
@@ -24,14 +24,14 @@ const Home = () => {
 }, [1]);
 
 useEffect(() => {
-  axios.get('https://library-mern-ten.vercel.app/bellabooks/latest-users')
+  axios.get('https://library-mern-ten.vercel.app/bellabooks/latest-books')
       .then((res) => { 
-                            setLatestBooks(res.data)
+                setLatestBooks(res.data)
        })
       .catch((err) => {
           console.error(err)
       });
-}, []);
+}, [1]);
 
 useEffect(() => {
   axios.get('https://library-mern-ten.vercel.app/bellabooks/users')

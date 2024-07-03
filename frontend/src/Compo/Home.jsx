@@ -9,6 +9,7 @@ const Home = () => {
 
   const Navigate = useNavigate();
   const [numberOfBooks , setBookNumber]=useState(0);
+  const [numberOfUsers , setNumberOfUsers] = useState(0);
   
   useEffect(() => {
     axios.get('https://library-mern-ten.vercel.app/bella-books/collection')
@@ -17,6 +18,16 @@ const Home = () => {
             console.error(err)
         });
 }, [1]);
+
+useEffect(() => {
+  axios.get('https://library-mern-ten.vercel.app/bellabooks/users')
+      .then((res) => { setNumberOfUsers(res.data.length) })
+      .catch((err) => {
+          console.error(err)
+      });
+}, [1]);
+
+
 
 console.log(numberOfBooks);
 
@@ -32,7 +43,7 @@ console.log(numberOfBooks);
         <div id='DashBoard_active_user_and_number_of_books'>
                 <div className='dashboard_each_div'>
                     <h2><FaUsers /></h2>
-                    <h2>Over 300+ </h2>
+                    <h2>Over {numberOfUsers}+ </h2>
                     <h2>Active users</h2>
                 </div>
                 <div className='dashboard_each_div'>

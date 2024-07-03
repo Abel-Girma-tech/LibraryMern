@@ -35,7 +35,7 @@ console.log(numberOfBooks);
                 </div>
                 <div className='dashboard_each_div'>
                     <h2><SiBookstack /></h2>
-                    <h2>Over {numberOfBooks}+ </h2>
+                    <h2>Over 2000+ </h2>
                     <h2>Book Collections</h2>
                 </div>
         </div>

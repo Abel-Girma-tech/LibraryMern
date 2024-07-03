@@ -20,6 +20,8 @@ const Home = () => {
 
 console.log(numberOfBooks);
 
+
+
   return(
         <div id="home_main_div">
           <h1 className='home_items'>Welcome to Bella-Book Store</h1>

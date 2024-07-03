@@ -257,3 +257,14 @@ app.put('/bella-books/edit-book/:id', async (req, res) => {
         return res.status(500).json({ message: `Internal server error editing the book. Please try again.`, error: err.message });
     }
 });
+
+
+app.get('/bellabooks/users', async (req, res) => {
+    try {
+        const users = await userModel.find();
+        res.status(200).json(users);
+    } catch (err) {
+        console.error("Error fetching users:", err);
+        res.status(500).json({ error: "Internal server error getting number of users" });
+    }
+});

@@ -16,7 +16,9 @@ const Home = () => {
         .catch((err) => {
             console.error(err)
         });
-}, [1]);
+}, [0]);
+
+console.log(numberOfBooks);
 
   return(
         <div id="home_main_div">

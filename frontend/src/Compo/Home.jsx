@@ -10,13 +10,13 @@ const Home = () => {
   const Navigate = useNavigate();
   const [numberOfBooks , setBookNumber]=0;
   
-  useEffect(() => {
-    axios.get('https://library-mern-ten.vercel.app/bella-books/collection')
-        .then((res) => { setBookNumber(res.data.length) })
-        .catch((err) => {
-            console.error(err)
-        });
-}, [0]);
+//   useEffect(() => {
+//     axios.get('https://library-mern-ten.vercel.app/bella-books/collection')
+//         .then((res) => { setBookNumber(res.data.length) })
+//         .catch((err) => {
+//             console.error(err)
+//         });
+// }, [0]);
 
 console.log(numberOfBooks);
 

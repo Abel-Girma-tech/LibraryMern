@@ -8,15 +8,15 @@ import { useNavigate } from 'react-router-dom';
 const Home = () => {
 
   const Navigate = useNavigate();
-  const [numberOfBooks , setBookNumber]=0;
+  const [numberOfBooks , setBookNumber]=useState(0);
   
-//   useEffect(() => {
-//     axios.get('https://library-mern-ten.vercel.app/bella-books/collection')
-//         .then((res) => { setBookNumber(res.data.length) })
-//         .catch((err) => {
-//             console.error(err)
-//         });
-// }, [0]);
+  useEffect(() => {
+    axios.get('https://library-mern-ten.vercel.app/bella-books/collection')
+        .then((res) => { setBookNumber(res.data.length) })
+        .catch((err) => {
+            console.error(err)
+        });
+}, [1]);
 
 console.log(numberOfBooks);
 
@@ -35,7 +35,7 @@ console.log(numberOfBooks);
                 </div>
                 <div className='dashboard_each_div'>
                     <h2><SiBookstack /></h2>
-                    <h2>Over 2000+ </h2>
+                    <h2>Over {numberOfBooks}+ </h2>
                     <h2>Book Collections</h2>
                 </div>
         </div>

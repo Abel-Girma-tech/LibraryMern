@@ -268,3 +268,14 @@ app.get('/bellabooks/users', async (req, res) => {
         res.status(500).json({ error: "Internal server error getting number of users" });
     }
 });
+
+
+app.get('/bellabooks/latest-users', async (req, res) => {
+    try {
+        const latestUsers = await userModel.find().sort({ createdAt: -1 }).limit(3);
+        res.status(200).json(latestUsers);
+    } catch (err) {
+        console.error("Error fetching latest users:", err);
+        res.status(500).json({ error: "Internal server error getting latest users" });
+    }
+});

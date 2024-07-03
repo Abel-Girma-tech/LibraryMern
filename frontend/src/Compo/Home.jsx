@@ -10,14 +10,29 @@ const Home = () => {
   const Navigate = useNavigate();
   const [numberOfBooks , setBookNumber]=useState(0);
   const [numberOfUsers , setNumberOfUsers] = useState(0);
+  const [latestBooks , setLatestBooks] = useState(null);
+
+
   
   useEffect(() => {
     axios.get('https://library-mern-ten.vercel.app/bella-books/collection')
-        .then((res) => { setBookNumber(res.data.length) })
+        .then((res) => { setBookNumber(res.data.length);
+                        setLatestBooks(res.data)
+         })
         .catch((err) => {
             console.error(err)
         });
 }, [1]);
+
+useEffect(() => {
+  axios.get('https://library-mern-ten.vercel.app/bellabooks/latest-users')
+      .then((res) => { 
+                      setLatestBooks(res.data)
+       })
+      .catch((err) => {
+          console.error(err)
+      });
+}, []);
 
 useEffect(() => {
   axios.get('https://library-mern-ten.vercel.app/bellabooks/users')
@@ -54,20 +69,24 @@ console.log(numberOfBooks);
         </div>
 
         <div id='home_items_card_div' className='home_items'>
-                <h3 className='home_items'>Featured books</h3>
+                <h3 className='home_items'>Latest books to hit our library</h3>
                 <div id="home_book_card_div">
-                    <div className='each_book_card_div'>
-                        <p>The bully Guy</p>
-                        <img className="each_home_card_image"src="https://www.thesmackdownhotel.com/images/jch-optimize/ng/images_wwe12_rosterbanners_randy-orton.webp" alt="" />
-                    </div>
-                    <div className='each_book_card_div'>
-                        <p>The Under Taker</p>
-                        <img className="each_home_card_image"src="https://nationaltoday.com/wp-content/uploads/2022/10/49-The-Undertaker-1200x834.jpg" alt="" />
-                    </div>
-                    <div className='each_book_card_div'>
-                        <p>Linkin park Evolution</p>
-                        <img className="each_home_card_image"src="https://static.promediateknologi.id/crop/0x0:0x0/750x500/webp/photo/2022/12/30/3698032107.jpg" alt="" />
-                    </div>
+
+                  {latestBooks.map((eachBook)=>{
+
+                    return(
+
+                      <div key={eachBook._id} className='each_book_card_div'>
+                        <p>{eachBook.title}</p>
+                        <img className="each_home_card_image"src={eachBook.cover} alt="" />
+                      </div>
+
+
+                    )
+
+
+                  })}
+                    
 
               </div>
               <div id="explore_more_b00ks_div">

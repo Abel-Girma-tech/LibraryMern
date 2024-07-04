@@ -38,7 +38,7 @@ function logOut(){
 
     axios.post('https://library-mern-ten.vercel.app/user/logout')
     .then(()=>{
-        Navigate('https://library-mern-ten.vercel.app')
+        Navigate('/')
     })
 
     .catch((err)=>{

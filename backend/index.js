@@ -279,3 +279,14 @@ app.get('/bellabooks/latest-books', async (req, res) => {
         res.status(500).json({ error: "Internal server error getting latest books" });
     }
 });
+
+
+app.post('/user/logout', async (req, res) => {
+    // Clear the access token cookie
+    res.cookie('access_token', '', { expires: new Date(0), httpOnly: true, path: '/' });
+    
+    // Clear the refresh token cookie
+    res.cookie('refresh_token', '', { expires: new Date(0), httpOnly: true, path: '/' });
+
+    res.status(200).json({ message: 'Logout successful' });
+});

@@ -1,13 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { AiOutlineLogout } from "react-icons/ai";
 import { GrSecure } from "react-icons/gr";
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react';
+import { useCookies } from 'react-cookie';
+import axios from 'axios';
+
 
 export default function Header() {
    
     const Navigate = useNavigate()
     const [accHover , setHoverStatus] = useState(false);
+    axios.defaults.withCredentials=true;
 
     function naviGateToPages(e){
         if(e.target.id==="ul_li_to_colle"){
@@ -29,6 +33,24 @@ export default function Header() {
             Navigate('/bella-books/home')
         }
     }
+    
+function logOut(){
+
+    axios.post('https://library-mern-ten.vercel.app/user/logout')
+    .then(()=>{
+        Navigate('https://library-mern-ten.vercel.app')
+    })
+
+    .catch((err)=>{
+        console.log(err)
+    })
+}
+  
+
+
+
+
+
 
     return (
         <div id="header_div">
@@ -45,10 +67,8 @@ export default function Header() {
                 {accHover?( <ul id="user_acc_sec">
                     <li className='account_action_list'>Account Info</li>
                     <li className='account_action_list'>Delete Account</li>
-                    <li className='account_action_list'>Log Out</li>
-                </ul>):(<p></p>) }
-               
-                
+                    <li onClick={logOut}className='account_action_list'>Log Out</li>
+                </ul>):(<p></p>) }            
             </div>
         </div>
     )

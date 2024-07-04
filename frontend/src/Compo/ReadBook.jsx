@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 
 
 export default function ReadBook() {
-    let [book, setBook] = useState({});
+    let [book, setBook] = useState(null);
   const navigate = useNavigate();
   const { id } = useParams();
 

@@ -7,14 +7,14 @@ import { useParams } from "react-router-dom";
 
 
 export default function ReadBook() {
-    let [book, setBook] = useState({});
+  const  [book, setBook] = useState({});
   const navigate = useNavigate();
   const { id } = useParams();
 
   axios.defaults.withCredentials = true;
 
   useEffect(() => {
-    axios.get(`https://library-mern-ten.vercel.app/single-book-detail/${id}`)
+    axios.get(`https://library-mern-ten.vercel.app/bella-books/single-book-detail/${id}`)
       .then((res) => {
         setBook(res.data);
       })

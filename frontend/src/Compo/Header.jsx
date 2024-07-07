@@ -43,11 +43,9 @@ export default function Header() {
         axios.get('https://library-mern-ten.vercel.app/user/info')
             .then((res) => {
                 setUserName(res.data.userInfo.username);
-                setLoading(false);
             })
             .catch((err) => {
                 console.log(err);
-                setLoading(false);
             });
     }, []);
 

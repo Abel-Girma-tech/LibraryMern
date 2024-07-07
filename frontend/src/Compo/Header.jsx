@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { GrSecure } from "react-icons/gr";
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { CgProfile } from "react-icons/cg";
 import axios from 'axios';
 
@@ -50,6 +50,19 @@ export default function Header() {
             });
     }, []);
 
+    function deleteAccount(e){
+        e.preventDefault();
+        axios.delete('https://library-mern-ten.vercel.app/user/account/delete')
+        .then((res)=>{
+        Navigate('/')
+        console.log(res.data.message)
+        })
+        .catch((err)=>{
+            console.log(err)
+
+        })
+    }
+
     return (
         <div id="header_div">
             <h1 id="header_hone">Bella-Books</h1>
@@ -71,7 +84,7 @@ export default function Header() {
                 {accHover ? (
                     <ul id="user_acc_sec">
                         <li className='account_action_list'>Account Info</li>
-                        <li className='account_action_list'>Delete Account</li>
+                        <li onClick={deleteAccount} className='account_action_list'>Delete Account</li>
                         <li onClick={logOut} className='account_action_list'>Log Out</li>
                     </ul>
                 ) : null}

@@ -320,7 +320,40 @@ app.get('/user/info', (req, res) => {
 });
 
 
-// app.delete('user/profile/delete' , async (req ,res)=>{
+app.delete('user/account/delete' , async (req ,res)=>{
+
+    let accessTokenToDelete = await req.cookies.access_token;
+
+    if(!accessTokenToDelete){
+        return res.status(400).json({message : "Account for deletaion not found. Please login agian or refresh your browser "})
+    }
+
+    try{
 
 
-// })
+    let decoded = jwt.verify(accessTokenToDelete , accessTokSecKey);
+
+   let UserNameaccountToDelete = { username: decoded.username };
+
+   let DeleteThisExist = await userModel.findOneAndDelete(username);
+
+   if(!DeleteThisExist){
+    return res.status(401).json({message : "Unable to delete account"})
+   }
+  
+   else{
+
+   return res.status(200).json({message : "account succesfully deleted!"})
+
+   }
+    }
+
+    catch(err){
+
+        console.error("Error deleteing account:", err);
+        res.status(500).json({ error: "Internal server error deleting user account!" });
+
+    }
+
+
+})

@@ -64,7 +64,7 @@ export default function Header() {
                 id="header_user_section"
             >
                 <p id="user_name">
-                    Hi {loading ? "Loading..." : userName}! <GrSecure id='log_out_btn' />
+                    Hi {userName}! <GrSecure id='log_out_btn' />
                 </p>
 
                 {accHover ? (

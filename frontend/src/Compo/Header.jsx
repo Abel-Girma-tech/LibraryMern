@@ -50,7 +50,7 @@ export default function Header() {
                 console.log(err);
                 setLoading(false);
             });
-    }, []);
+    }, [1]);
 
     return (
         <div id="header_div">

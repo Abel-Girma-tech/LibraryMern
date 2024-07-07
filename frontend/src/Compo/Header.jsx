@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { GrSecure } from "react-icons/gr";
-import { Navigate, useNavigate } from 'react-router-dom';
-import { CgProfile } from "react-icons/cg";
+import { GrSecure } from 'react-icons/gr';
+import { useNavigate } from 'react-router-dom';
+import { CgProfile } from 'react-icons/cg';
 import axios from 'axios';
 
 export default function Header() {
@@ -15,15 +15,15 @@ export default function Header() {
     function naviGateToPages(e) {
         const targetId = e.target.id;
 
-        if (targetId === "ul_li_to_colle") {
+        if (targetId === 'ul_li_to_colle') {
             navigate('/bella-books/collection');
-        } else if (targetId === "ul_li_to_donate") {
+        } else if (targetId === 'ul_li_to_donate') {
             navigate('/bella-books/add-new-book');
-        } else if (targetId === "ul_li_to_about") {
+        } else if (targetId === 'ul_li_to_about') {
             navigate('/bella-books/about');
-        } else if (targetId === "ul_li_to_contact") {
+        } else if (targetId === 'ul_li_to_contact') {
             navigate('/bella-books/contact');
-        } else if (targetId === "ul_li_to_home") {
+        } else if (targetId === 'ul_li_to_home') {
             navigate('/bella-books/home');
         }
     }
@@ -32,6 +32,18 @@ export default function Header() {
         axios.post('https://library-mern-ten.vercel.app/user/logout')
             .then(() => {
                 navigate('/');
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+
+    function deleteAccount(e) {
+        e.preventDefault();
+        axios.delete('https://library-mern-ten.vercel.app/user/account/delete')
+            .then((res) => {
+                navigate('/');
+                console.log(res.data.message);
             })
             .catch((err) => {
                 console.log(err);
@@ -50,19 +62,6 @@ export default function Header() {
             });
     }, []);
 
-    function deleteAccount(e){
-        e.preventDefault();
-        axios.delete('https://library-mern-ten.vercel.app/user/account/delete')
-        .then((res)=>{
-        Navigate('/')
-        console.log(res.data.message)
-        })
-        .catch((err)=>{
-            console.log(err)
-
-        })
-    }
-
     return (
         <div id="header_div">
             <h1 id="header_hone">Bella-Books</h1>
@@ -78,7 +77,7 @@ export default function Header() {
                 id="header_user_section"
             >
                 <p id="user_name">
-                <CgProfile id="profile_icon"/> Hi {loading ? "Loading..." : userName}! <GrSecure id='log_out_btn' />
+                    <CgProfile id="profile_icon" /> Hi {loading ? "Loading..." : userName}! <GrSecure id='log_out_btn' />
                 </p>
 
                 {accHover ? (

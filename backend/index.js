@@ -93,8 +93,8 @@ app.post('/user/login', async (req, res) => {
         const refreshToken = jwt.sign({ username }, refreshTokSecKey, { expiresIn: '2m' });
 
         const cookieOptions = { maxAge: 60000, httpOnly: true, secure: process.env.NODE_ENV === 'production', path: '/' };
-        res.cookie('access_token', accessToken, cookieOptions);
-        res.cookie('refresh_token', refreshToken, { ...cookieOptions, maxAge: 120000 });
+        res.cookie('access_token', accessToken);
+        res.cookie('refresh_token', refreshToken);
 
         return res.status(200).json({ message: "Successfully logged in!" });
 

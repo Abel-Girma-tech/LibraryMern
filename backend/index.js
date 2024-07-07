@@ -92,8 +92,9 @@ app.post('/user/login', async (req, res) => {
         const accessToken = jwt.sign({ username }, accessTokSecKey, { expiresIn: '1m' });
         const refreshToken = jwt.sign({ username }, refreshTokSecKey, { expiresIn: '2m' });
 
-        res.cookie('access_token', accessToken, { maxAge: 60000, httpOnly: true , secure: true });
-        res.cookie('refresh_token', refreshToken, { maxAge: 120000, httpOnly: true , secure: true });
+        const cookieOptions = { maxAge: 60000, httpOnly: true, secure: process.env.NODE_ENV === 'production', path: '/' };
+        res.cookie('access_token', accessToken, cookieOptions);
+        res.cookie('refresh_token', refreshToken, { ...cookieOptions, maxAge: 120000 });
 
         return res.status(200).json({ message: "Successfully logged in!" });
 
@@ -102,7 +103,6 @@ app.post('/user/login', async (req, res) => {
         return res.status(500).json(`Internal server error: ${err}`);
     }
 });
-
 // Define other routes and middleware here...
 
 const verifyUser = (req, res, next) => {
@@ -294,7 +294,7 @@ app.post('/user/logout', async (req, res) => {
 
 app.get('/user/info', (req, res) => {
     const refreshToken = req.cookies.refresh_token;
-    
+
     if (!refreshToken) {
         return res.status(400).json({ message: "No refresh token found" });
     }

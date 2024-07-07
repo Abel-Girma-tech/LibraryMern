@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { AiOutlineLogout } from "react-icons/ai";
 import { GrSecure } from "react-icons/gr";
 import { useNavigate } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
 import axios from 'axios';
 
 export default function Header() {
@@ -40,13 +38,14 @@ export default function Header() {
     }
 
     useEffect(() => {
-        axios.defaults.withCredentials=true;
         axios.get('https://library-mern-ten.vercel.app/user/info')
             .then((res) => {
                 setUserName(res.data.userInfo.username);
+                setLoading(false);
             })
             .catch((err) => {
                 console.log(err);
+                setLoading(false);
             });
     }, []);
 
@@ -65,7 +64,7 @@ export default function Header() {
                 id="header_user_section"
             >
                 <p id="user_name">
-                    Hi {userName}! <GrSecure id='log_out_btn' />
+                    Hi {loading ? "Loading..." : userName}! <GrSecure id='log_out_btn' />
                 </p>
 
                 {accHover ? (

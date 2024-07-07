@@ -292,11 +292,3 @@ app.post('/user/logout', async (req, res) => {
 });
 
 
-app.get('/user/username' , async (req ,res)=>{
-
-
-let username = 
-
-
-
-} )

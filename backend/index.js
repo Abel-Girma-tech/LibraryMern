@@ -293,9 +293,6 @@ app.post('/user/logout', async (req, res) => {
 
 app.get('/user/info', (req, res) => {
     const refreshToken = req.cookies.refresh_token;
-
-
-
     try {
         const decoded = jwt.verify(refreshToken, refreshTokSecKey);
         const userInfo = { username: decoded.username };

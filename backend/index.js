@@ -292,3 +292,25 @@ app.post('/user/logout', async (req, res) => {
 });
 
 
+app.get('/user/info', async (req, res) => {
+    try {
+        // Access the 'refresh_token' cookie
+        const refreshToken = req.cookies.refresh_token;
+
+        if (!refreshToken) {
+            return res.status(400).json({ message: "Unable to get user info" });
+        }
+
+        // Assuming you have some logic to fetch user information using the refresh token
+        // let userInfo = await someFunctionToGetUserInfo(refreshToken);
+
+        // For now, returning the token as userInfo (replace this with actual user info fetching logic)
+        const userInfo = { refreshToken };
+
+        return res.status(200).json({ userInfo });
+    } catch (err) {
+        console.error("Error fetching user info:", err);
+        res.status(500).json({ error: "Internal server error getting user info" });
+    }
+});
+

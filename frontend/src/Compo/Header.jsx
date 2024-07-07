@@ -1,14 +1,14 @@
-import React, { useEffect } from 'react'
+import React, { useEffect ,useState } from 'react'
 import { AiOutlineLogout } from "react-icons/ai";
 import { GrSecure } from "react-icons/gr";
 import { useNavigate } from 'react-router-dom'
-import { useState } from 'react';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
 
 
 export default function Header() {
    
+    const [userName , setUserName]=useState(null);
     const Navigate = useNavigate()
     const [accHover , setHoverStatus] = useState(false);
     axios.defaults.withCredentials=true;
@@ -45,6 +45,21 @@ function logOut(){
         console.log(err)
     })
 }
+
+useEffect(()=>{
+
+axios.get('https://library-mern-ten.vercel.app/user/info')
+.then((res)=>{
+    setUserName(res.data.userInfo.username)
+})
+
+.catch((err)=>{
+    console.log(err)
+})
+
+
+
+},[])
   
 
 
@@ -62,7 +77,7 @@ function logOut(){
                 <li id="ul_li_to_about" onClick={naviGateToPages}className='header_li'>About</li>
             </ul>
             <div onMouseEnter={(e)=>setHoverStatus(true)} onMouseLeave={(e)=>setHoverStatus(false)} id="header_user_section">
-                <p id="user_name">Hi Abel! <GrSecure id='log_out_btn' /></p>
+                <p id="user_name">Hi {userName}! <GrSecure id='log_out_btn' /></p>
 
                 {accHover?( <ul id="user_acc_sec">
                     <li className='account_action_list'>Account Info</li>

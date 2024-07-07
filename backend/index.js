@@ -294,9 +294,9 @@ app.post('/user/logout', async (req, res) => {
 app.get('/user/info', (req, res) => {
     const refreshToken = req.cookies.refresh_token;
 
-    if (!refreshToken) {
-        return res.status(400).json({ message: "No refresh token found" });
-    }
+    // if (!refreshToken) {
+    //     return res.status(400).json({ message: "No refresh token found" });
+    // }
 
     try {
         const decoded = jwt.verify(refreshToken, refreshTokSecKey);

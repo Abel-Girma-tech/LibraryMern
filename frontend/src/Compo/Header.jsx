@@ -50,16 +50,10 @@ export default function Header() {
             });
     }, []);
 
-    function deleteAccount(e) {
+    function GoTodeleteAccountPage(e){
+
         e.preventDefault();
-        axios.delete('https://library-mern-ten.vercel.app/user/account/delete')
-            .then((res) => {
-                navigate('/');
-                console.log(res.data.message);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        navigate('/bella-books/user/account/delete')
     }
 
     return (
@@ -83,7 +77,7 @@ export default function Header() {
                 {accHover ? (
                     <ul id="user_acc_sec">
                         <li className='account_action_list'>Account Info</li>
-                        <li onClick={deleteAccount} className='account_action_list'>Delete Account</li>
+                        <li onClick={GoTodeleteAccountPage} className='account_action_list'>Delete Account</li>
                         <li onClick={logOut} className='account_action_list'>Log Out</li>
                     </ul>
                 ) : null}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { GrSecure } from 'react-icons/gr';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { CgProfile } from 'react-icons/cg';
 import axios from 'axios';
 
@@ -38,17 +38,7 @@ export default function Header() {
             });
     }
 
-    function deleteAccount(e) {
-        e.preventDefault();
-        axios.delete('https://library-mern-ten.vercel.app/user/account/delete')
-            .then((res) => {
-                navigate('/');
-                console.log(res.data.message);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    }
+
 
     useEffect(() => {
         axios.get('https://library-mern-ten.vercel.app/user/info')
@@ -84,7 +74,7 @@ export default function Header() {
                     <ul id="user_acc_sec">
                         <li className='account_action_list'>Account Info</li>
                         <li onClick={deleteAccount} className='account_action_list'>Delete Account</li>
-                        <li onClick={logOut} className='account_action_list'>Log Out</li>
+                        <li onClick={Navigate('/bella-books/user/account/delete')} className='account_action_list'>Log Out</li>
                     </ul>
                 ) : null}
             </div>

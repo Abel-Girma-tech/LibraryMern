@@ -13,6 +13,7 @@ import GetStarted from './Compo/GetStarted';
 import ReadBook from './Compo/ReadBook';
 import Layout from './Compo/Layout';
 import PrivateRoute from './Compo/PrivateRoute'
+import DeleteAccount from './Compo/DeleteAccount';
 
 
 
@@ -32,6 +33,7 @@ function App() {
                 <Route path='/bella-books/single-book-detail/:id' element={<ReadBook/>}/>
                 <Route path='/bella-books/edit-book/:id' element={<EditBook/>}/>
                 <Route path='/bella-books/delete-book/:id' element={<DeleteBook/>}/>
+                <Route path='/bella-books/user/account/delete' element={<DeleteAccount/>}/>
                 <Route path='/bella-books/about' element={<About/>}/>
           </Route>
           <Route path='/' element={<GetStarted/>}/>

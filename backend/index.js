@@ -92,7 +92,6 @@ app.post('/user/login', async (req, res) => {
         const accessToken = jwt.sign({ username }, accessTokSecKey, { expiresIn: '1m' });
         const refreshToken = jwt.sign({ username }, refreshTokSecKey, { expiresIn: '2m' });
 
-        const cookieOptions = { maxAge: 60000, httpOnly: true, secure: process.env.NODE_ENV === 'production', path: '/' };
         res.cookie('access_token', accessToken);
         res.cookie('refresh_token', refreshToken);
 

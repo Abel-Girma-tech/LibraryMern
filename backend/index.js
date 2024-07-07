@@ -300,7 +300,7 @@ app.get('/user/info', (req, res) => {
     }
 
     try {
-        const decoded = jwt.verify(refreshToken, SECRET_KEY);
+        const decoded = jwt.verify(refreshToken, refreshTokSecKey);
         const userInfo = { username: decoded.username };
         return res.status(200).json({ userInfo });
     } catch (err) {

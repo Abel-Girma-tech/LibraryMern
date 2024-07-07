@@ -290,3 +290,13 @@ app.post('/user/logout', async (req, res) => {
 
     res.status(200).json({ message: 'Logout successful' });
 });
+
+
+app.get('/user/username' , async (req ,res)=>{
+
+
+let username = 
+
+
+
+} )

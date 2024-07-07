@@ -318,3 +318,9 @@ app.get('/user/info', (req, res) => {
         return res.status(401).json({ error: "Invalid token" });
     }
 });
+
+
+// app.delete('user/profile/delete' , async (req ,res)=>{
+
+
+// })

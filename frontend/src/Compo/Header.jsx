@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { GrSecure } from "react-icons/gr";
 import { useNavigate } from 'react-router-dom';
+import { CgProfile } from "react-icons/cg";
 import axios from 'axios';
 
 export default function Header() {
@@ -64,7 +65,7 @@ export default function Header() {
                 id="header_user_section"
             >
                 <p id="user_name">
-                    Hi {loading ? "Loading..." : userName}! <GrSecure id='log_out_btn' />
+                <CgProfile /> Hi {loading ? "Loading..." : userName}! <GrSecure id='log_out_btn' />
                 </p>
 
                 {accHover ? (

@@ -92,8 +92,18 @@ app.post('/user/login', async (req, res) => {
         const accessToken = jwt.sign({ username }, accessTokSecKey, { expiresIn: '1m' });
         const refreshToken = jwt.sign({ username }, refreshTokSecKey, { expiresIn: '2m' });
 
-        res.cookie('access_token', accessToken);
-        res.cookie('refresh_token', refreshToken);
+        // Set cookies with HttpOnly, Secure, and SameSite attributes
+        res.cookie('access_token', accessToken, {
+            httpOnly: true,
+            secure: true, // Set to true if your server is using HTTPS
+            sameSite: 'None' // Adjust as per your security requirements
+        });
+
+        res.cookie('refresh_token', refreshToken, {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'None'
+        });
 
         return res.status(200).json({ message: "Successfully logged in!" });
 
@@ -102,6 +112,7 @@ app.post('/user/login', async (req, res) => {
         return res.status(500).json(`Internal server error: ${err}`);
     }
 });
+
 // Define other routes and middleware here...
 
 const verifyUser = (req, res, next) => {

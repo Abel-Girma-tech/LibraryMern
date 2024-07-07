@@ -10,11 +10,11 @@ export default function DeleteAccount() {
   const navigate = useNavigate()
 
   const [deleteMessage ,  setMessage] = useState('');
-  const [deleteStatus , setDeleted] = useState(null);
+  const [deleteStatus , setDeleted] = useState(false);
 
 
 
-  function onClickYesDelete(e) {
+  function onClickYesDeleteAccount(e) {
     e.preventDefault();
     axios.delete(`https://library-mern-ten.vercel.app/user/account/delete`)
       .then((res) => {
@@ -51,7 +51,7 @@ export default function DeleteAccount() {
           ) : (
             <div id="popup_btns_div">
               <button id="popup_cancel_btn" onClick={cancelDeletionOrGoBack}>Cancel</button>
-              <button id="popup_delete_btn" onClick={onClickYesDelete}>Yes</button>
+              <button id="popup_delete_btn" onClick={onClickYesDeleteAccount}>Yes</button>
             </div>
           )}
 

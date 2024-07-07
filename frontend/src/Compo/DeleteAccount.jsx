@@ -20,6 +20,7 @@ export default function DeleteAccount() {
       .then((res) => {
         setMessage(res.data.message);
         setDeleted(true);
+        navigate('/')
       })
       .catch((err) => {
         console.error(err);

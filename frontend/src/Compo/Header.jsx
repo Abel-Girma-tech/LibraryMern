@@ -65,7 +65,7 @@ export default function Header() {
                 id="header_user_section"
             >
                 <p id="user_name">
-                <CgProfile color='white' /> Hi {loading ? "Loading..." : userName}! <GrSecure id='log_out_btn' />
+                <CgProfile id="profile_icon"/> Hi {loading ? "Loading..." : userName}! <GrSecure id='log_out_btn' />
                 </p>
 
                 {accHover ? (

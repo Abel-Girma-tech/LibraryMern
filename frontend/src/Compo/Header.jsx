@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { GrSecure } from "react-icons/gr";
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { CgProfile } from "react-icons/cg";
 import axios from 'axios';
 
@@ -50,17 +50,16 @@ export default function Header() {
             });
     }, []);
 
-    function deleteAccount(e){
+    function deleteAccount(e) {
         e.preventDefault();
         axios.delete('https://library-mern-ten.vercel.app/user/account/delete')
-        .then((res)=>{
-        Navigate('/')
-        console.log(res.data.message)
-        })
-        .catch((err)=>{
-            console.log(err)
-
-        })
+            .then((res) => {
+                navigate('/');
+                console.log(res.data.message);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }
 
     return (
@@ -78,13 +77,13 @@ export default function Header() {
                 id="header_user_section"
             >
                 <p id="user_name">
-                <CgProfile id="profile_icon"/> Hi {loading ? "Loading..." : userName}! <GrSecure id='log_out_btn' />
+                    <CgProfile id="profile_icon" /> Hi {loading ? "Loading..." : userName}! <GrSecure id='log_out_btn' />
                 </p>
 
                 {accHover ? (
                     <ul id="user_acc_sec">
                         <li className='account_action_list'>Account Info</li>
-                        <li onClick={navigate('/bella-books/user/account/delete')} className='account_action_list'>Delete Account</li>
+                        <li onClick={deleteAccount} className='account_action_list'>Delete Account</li>
                         <li onClick={logOut} className='account_action_list'>Log Out</li>
                     </ul>
                 ) : null}

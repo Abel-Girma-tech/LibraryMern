@@ -73,8 +73,8 @@ export default function Header() {
                 {accHover ? (
                     <ul id="user_acc_sec">
                         <li className='account_action_list'>Account Info</li>
-                        <li onClick={deleteAccount} className='account_action_list'>Delete Account</li>
-                        <li onClick={Navigate('/bella-books/user/account/delete')} className='account_action_list'>Log Out</li>
+                        <li onClick={Navigate('/bella-books/user/account/delete')} className='account_action_list'>Delete Account</li>
+                        <li onClick={logOut} className='account_action_list'>Log Out</li>
                     </ul>
                 ) : null}
             </div>

@@ -40,6 +40,7 @@ export default function Header() {
     }
 
     useEffect(() => {
+        axios.defaults.withCredentials=true;
         axios.get('https://library-mern-ten.vercel.app/user/info')
             .then((res) => {
                 setUserName(res.data.userInfo.username);

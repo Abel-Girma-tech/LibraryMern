@@ -1,90 +1,82 @@
-import React, { useEffect ,useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { AiOutlineLogout } from "react-icons/ai";
 import { GrSecure } from "react-icons/gr";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
 
-
 export default function Header() {
-   
-    const [userName , setUserName]=useState(null);
-    const Navigate = useNavigate()
-    const [accHover , setHoverStatus] = useState(false);
-    axios.defaults.withCredentials=true;
+    const [userName, setUserName] = useState(null);
+    const navigate = useNavigate();
+    const [accHover, setHoverStatus] = useState(false);
+    const [loading, setLoading] = useState(true);
 
-    function naviGateToPages(e){
-        if(e.target.id==="ul_li_to_colle"){
-            Navigate('/bella-books/collection')
-        }
+    axios.defaults.withCredentials = true;
 
-        if(e.target.id==="ul_li_to_donate"){
-            Navigate('/bella-books/add-new-book')
-        }
-        if(e.target.id==="ul_li_to_about"){
-            Navigate('/bella-books/about')
-        }
+    function naviGateToPages(e) {
+        const targetId = e.target.id;
 
-        if(e.target.id==="ul_li_to_contact"){
-            Navigate('/bella-books/contact')
-        }
-
-        if(e.target.id==="ul_li_to_home"){
-            Navigate('/bella-books/home')
+        if (targetId === "ul_li_to_colle") {
+            navigate('/bella-books/collection');
+        } else if (targetId === "ul_li_to_donate") {
+            navigate('/bella-books/add-new-book');
+        } else if (targetId === "ul_li_to_about") {
+            navigate('/bella-books/about');
+        } else if (targetId === "ul_li_to_contact") {
+            navigate('/bella-books/contact');
+        } else if (targetId === "ul_li_to_home") {
+            navigate('/bella-books/home');
         }
     }
-    
-function logOut(){
 
-    axios.post('https://library-mern-ten.vercel.app/user/logout')
-    .then(()=>{
-        Navigate('/')
-    })
+    function logOut() {
+        axios.post('https://library-mern-ten.vercel.app/user/logout')
+            .then(() => {
+                navigate('/');
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
 
-    .catch((err)=>{
-        console.log(err)
-    })
-}
-
-useEffect(()=>{
-
-axios.get('https://library-mern-ten.vercel.app/user/info')
-.then((res)=>{
-    setUserName(res.data.userInfo.username)
-})
-
-.catch((err)=>{
-    console.log(err)
-})
-
-
-
-},[])
-  
-
-
-
-
-
+    useEffect(() => {
+        axios.get('https://library-mern-ten.vercel.app/user/info')
+            .then((res) => {
+                setUserName(res.data.userInfo.username);
+                setLoading(false);
+            })
+            .catch((err) => {
+                console.log(err);
+                setLoading(false);
+            });
+    }, []);
 
     return (
         <div id="header_div">
             <h1 id="header_hone">Bella-Books</h1>
             <ul id="header_ul">
-                <li id="ul_li_to_home" onClick={naviGateToPages}className='header_li'>Home</li>
-                <li id="ul_li_to_colle" onClick={naviGateToPages}className='header_li'>Collections</li>
-                <li id="ul_li_to_donate" onClick={naviGateToPages}className='header_li'>Donate-Book</li>
-                <li id="ul_li_to_about" onClick={naviGateToPages}className='header_li'>About</li>
+                <li id="ul_li_to_home" onClick={naviGateToPages} className='header_li'>Home</li>
+                <li id="ul_li_to_colle" onClick={naviGateToPages} className='header_li'>Collections</li>
+                <li id="ul_li_to_donate" onClick={naviGateToPages} className='header_li'>Donate-Book</li>
+                <li id="ul_li_to_about" onClick={naviGateToPages} className='header_li'>About</li>
             </ul>
-            <div onMouseEnter={(e)=>setHoverStatus(true)} onMouseLeave={(e)=>setHoverStatus(false)} id="header_user_section">
-                <p id="user_name">Hi {userName}! <GrSecure id='log_out_btn' /></p>
+            <div
+                onMouseEnter={() => setHoverStatus(true)}
+                onMouseLeave={() => setHoverStatus(false)}
+                id="header_user_section"
+            >
+                <p id="user_name">
+                    Hi {loading ? "Loading..." : userName}! <GrSecure id='log_out_btn' />
+                </p>
 
-                {accHover?( <ul id="user_acc_sec">
-                    <li className='account_action_list'>Account Info</li>
-                    <li className='account_action_list'>Delete Account</li>
-                    <li onClick={logOut}className='account_action_list'>Log Out</li>
-                </ul>):(<p></p>) }            
+                {accHover ? (
+                    <ul id="user_acc_sec">
+                        <li className='account_action_list'>Account Info</li>
+                        <li className='account_action_list'>Delete Account</li>
+                        <li onClick={logOut} className='account_action_list'>Log Out</li>
+                    </ul>
+                ) : null}
             </div>
         </div>
-    )
+    );
 }
